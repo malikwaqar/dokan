@@ -145,4 +145,4 @@
 
 <!-- Graphs -->
 
-    @endsection
+@endsection
