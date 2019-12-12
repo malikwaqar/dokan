@@ -1,6 +1,18 @@
 @extends('admin.app')
+@section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+@endsection
 @section('content')
     <div class="table-responsive">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h2 class="h2">Categories List</h2>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <a href="{{route('admin.category.create')}}" class="btn btn-sm btn-outline-secondary">
+                    Add Category
+                </a>
+            </div>
+        </div>
         <table class="table table-striped table-sm">
             <thead>
             <tr>

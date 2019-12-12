@@ -1,5 +1,11 @@
 @extends('admin.app')
+@section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="{{route('admin.category.index')}}">Categories</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Add Category</li>
+@endsection
 @section('content')
+    <div class="table-responsive">
     <form action="{{route('admin.category.store')}}", method="post" accept-charset="UTF-8">
         @csrf
         <div class="form-group row">
@@ -55,6 +61,7 @@
             </div>
         </div>
     </form>
+    </div>
 @endsection
 @section('scripts')
     <script type="text/javascript">
@@ -78,4 +85,5 @@
             });
         })
     </script>
+    <script type="text/javascript" src="{{asset('js/app.js')}}"></script>
 @endsection

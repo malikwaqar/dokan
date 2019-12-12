@@ -33,6 +33,15 @@
                 </button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        @yield('breadcrumbs')
+                    </ol>
+                </nav>
+            </div>
+        </div>
         @include('admin.partials.navbar')
         @yield('content')
     </main>
