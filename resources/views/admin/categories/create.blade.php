@@ -6,7 +6,7 @@
 @endsection
 @section('content')
     <div class="table-responsive">
-    <form action="{{route('admin.category.store')}}", method="post" accept-charset="UTF-8">
+    <form action="{{route('admin.category.store')}}" method="post" accept-charset="UTF-8">
         @csrf
         <div class="form-group row">
             <div class="col-sm-12">
