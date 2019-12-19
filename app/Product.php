@@ -13,6 +13,9 @@ class Product extends Model
     protected $guarded = [];
     protected $dates = ['deleted_at'];
     public function categories(){
-        return $this->belongsToMany('App\Category');
+        return $this->belongsToMany('App\Category','category_product');
+    }
+    public function getRouteKeyName(){
+        return 'slug';
     }
 }

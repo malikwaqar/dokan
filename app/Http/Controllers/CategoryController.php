@@ -106,4 +106,26 @@ class CategoryController extends Controller
             return back()->with('message','Error Deleting Record');
         }
     }
+    public function remove(Category $category)
+    {
+        if($category->delete()){
+            return back()->with('message','Category Successfully Trashed!');
+        }else{
+            return back()->with('message','Error Deleting Record');
+        }
+    }
+    public function trash()
+    {
+        $categories = Category::onlyTrashed()->paginate(5);
+        return view('admin.categories.index', compact('categories'));
+    }
+    public function recoverCat($id)
+    {
+        $category = Category::onlyTrashed()->findOrFail($id);
+        if($category->restore())
+            return back()->with('message','Category Successfully Restored!');
+        else
+            return back()->with('message','Error Restoring Category');
+    }
+
 }

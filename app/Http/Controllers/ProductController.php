@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
 use App\Product;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,8 @@ class ProductController extends Controller
     public function create()
     {
         //
+        $categories = Category::with('childrens')->get();
+        return view('admin.products.create', compact('categories'));
     }
 
     /**
@@ -83,5 +86,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+    public function trash()
+    {
+        $products = Product::onlyTrashed()->paginate(5);
+        return view('admin.products.index', compact('products'));
+    }
+    public function recoverProduct($id)
+    {
+        $product = Product::onlyTrashed()->findOrFail($id);
+        if($product->restore())
+            return back()->with('message','Product Successfully Restored!');
+        else
+            return back()->with('message','Error Restoring Product');
     }
 }
