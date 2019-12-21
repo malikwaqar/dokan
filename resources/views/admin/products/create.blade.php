@@ -104,7 +104,7 @@
 
                             </div>
                         </li>
-                        <li class="list-group-item active"><h5>Feaured Image</h5></li>
+                        <li class="list-group-item active"><h5>Featured Image</h5></li>
                         <li class="list-group-item">
                             <div class="input-group mb-3">
                                 <div class="custom-file ">

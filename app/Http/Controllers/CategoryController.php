@@ -39,7 +39,8 @@ class CategoryController extends Controller
     {
         $request->validate([
             'title'=>'required|min:4',
-            'slug'=>'required|min:4|unique:categories'
+            'slug'=>'required|min:4|unique:categories',
+            'description' =>'required|min:4'
         ]);
         $categories = Category::create($request->only('title','description','slug'));
         $categories->childrens()->attach($request->parent_id);

@@ -1,7 +1,7 @@
 @extends('admin.app')
 @section('breadcrumbs')
     <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">Dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Categories</li>
+    <li class="breadcrumb-item active" aria-current="page">Products</li>
 @endsection
 @section('content')
 
@@ -28,10 +28,10 @@
         </div>
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
 
-            <h2 class="h2">Categories List</h2>
+            <h2 class="h2">Products List</h2>
             <div class="btn-toolbar mb-2 mb-md-0">
-                <a href="{{route('admin.category.create')}}" class="btn btn-sm btn-outline-secondary">
-                    Add Category
+                <a href="{{route('admin.product.create')}}" class="btn btn-sm btn-outline-secondary">
+                    Add Product
                 </a>
             </div>
         </div>
@@ -43,7 +43,9 @@
                 <th>Description</th>
                 <th>Slug</th>
                 <th>Categories</th>
-                <th>Created At</th>
+                <th>Price</th>
+                <th>Thumbnail</th>
+                <th>Date Created</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -51,32 +53,34 @@
             @if($products->count() > 0)
                 @foreach($products as $product)
                     <tr>
-                        <td>{{$category->id}}</td>
-                        <td>{{$category->title}}</td>
-                        <td>{!! $category->description !!}</td>
-                        <td>{{$category->slug}}</td>
+                        <td>{{$product->id}}</td>
+                        <td>{{$product->title}}</td>
+                        <td>{!! $product->description !!}</td>
+                        <td>{{$product->slug}}</td>
                         <td>
-                            @if($category->childrens()->count() > 0)
-                                @foreach($category->childrens as $children)
+                            @if($product->categories()->count() > 0)
+                                @foreach($product->categories as $children)
                                     {{$children->title}},
                                 @endforeach
                             @else
-                                <strong>{{"Parent Category"}}</strong>
+                                <strong>{{"product"}}</strong>
                             @endif
                         </td>
-                        @if($category->trashed())
-                            <td>{{$category->deleted_at->diffForHumans()}}</td>
-                            <td><a class="btn btn-info btn-sm" href="{{route('admin.category.recover',$category->id)}}">Restore</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$category->id}}')">Delete</a>
-                                <form id="delete-category-{{$category->id}}" action="{{ route('admin.category.destroy', $category->slug) }}" method="POST" style="display: none;">
+                        <td>${{$product->price}}</td>
+                        <td><img src="{{asset('storage/'.$product->thumbnail)}}" alt="{{$product->title}}" class="img-responsive" height="50"/></td>
+                        @if($product->trashed())
+                            <td>{{$product->deleted_at}}</td>
+                            <td><a class="btn btn-info btn-sm" href="{{route('admin.product.recover',$product->id)}}">Restore</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$product->id}}')">Delete</a>
+                                <form id="delete-product-{{$product->id}}" action="{{ route('admin.product.destroy', $product->slug) }}" method="POST" style="display: none;">
 
                                     @method('DELETE')
                                     @csrf
                                 </form>
                             </td>
                         @else
-                            <td>{{$category->created_at->diffForHumans()}}</td>
-                            <td><a class="btn btn-info btn-sm" href="{{route('admin.category.edit',$category->slug)}}">Edit</a> | <a id="trash-category-{{$category->id}}" class="btn btn-warning btn-sm" href="{{route('admin.category.remove',$category->slug)}}">Trash</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$category->id}}')">Delete</a>
-                                <form id="delete-category-{{$category->id}}" action="{{ route('admin.category.destroy', $category->slug) }}" method="POST" style="display: none;">
+                            <td>{{$product->created_at}}</td>
+                            <td><a class="btn btn-info btn-sm" href="{{route('admin.product.edit',$product->slug)}}">Edit</a> | <a id="trash-product-{{$product->id}}" class="btn btn-warning btn-sm" href="{{route('admin.product.remove',$product->slug)}}">Trash</a> | <a class="btn btn-danger btn-sm" href="javascript:;" onclick="confirmDelete('{{$product->id}}')">Delete</a>
+                                <form id="delete-product-{{$product->id}}" action="{{ route('admin.product.destroy', $product->slug) }}" method="POST" style="display: none;">
 
                                     @method('DELETE')
                                     @csrf
@@ -87,10 +91,9 @@
                 @endforeach
             @else
                 <tr>
-                    <td colspan="7" class="alert alert-info">No Categories Found..</td>
+                    <td colspan="7" class="alert alert-info">No products Found..</td>
                 </tr>
             @endif
-
             </tbody>
         </table>
     </div>

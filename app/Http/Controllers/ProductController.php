@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Product;
+use App\CategoryParent;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -41,6 +42,31 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         //
+        $path = 'images/no-thumbnail.jpeg';
+        if($request->has('thumbnail')){
+            $extension = ".".$request->thumbnail->getClientOriginalExtension();
+            $name = basename($request->thumbnail->getClientOriginalName(), $extension).time();
+            $name = $name.$extension;
+            $path = $request->thumbnail->storeAs('images', $name, 'public');
+        }
+        $product = Product::create([
+            'title'=>$request->title,
+            'slug' => $request->slug,
+            'description'=>$request->description,
+            'thumbnail' => $path,
+            'status' => $request->status,
+            'options' => isset($request->extras) ? json_encode($request->extras) : null,
+            'featured' => ($request->featured) ? $request->featured : 0,
+            'price' => $request->price,
+            'discount'=>$request->discount ? $request->discount : 0,
+            'discount_price' => ($request->discount_price) ? $request->discount_price : 0,
+        ]);
+        if($product){
+            $product->categories()->attach($request->category_id,['created_at'=>now(), 'updated_at'=>now()]);
+            return redirect(route('admin.product.create'))->with('message', 'Product Successfully Added');
+        }else{
+            return back()->with('message', 'Error Inserting Product');
+        }
     }
 
     /**
@@ -52,6 +78,7 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
+
     }
 
     /**
