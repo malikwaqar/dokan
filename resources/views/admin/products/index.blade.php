@@ -4,30 +4,17 @@
     <li class="breadcrumb-item active" aria-current="page">Products</li>
 @endsection
 @section('content')
-
-    <div class="table-responsive">
-        <div class="row">
-            <div class="col-sm-12">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
-            </div>
-            <div class="col-sm-12">
-                @if (session()->has('message'))
-                    <div class="alert alert-success">
-                        {{session('message')}}
-                    </div>
-                @endif
-            </div>
+    <div class="row d-block">
+        <div class="col-sm-12">
+            @if (session()->has('message'))
+                <div class="alert alert-success">
+                    {{session('message')}}
+                </div>
+            @endif
         </div>
+    </div>
+    <div class="table-responsive">
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-
             <h2 class="h2">Products List</h2>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <a href="{{route('admin.product.create')}}" class="btn btn-sm btn-outline-secondary">
@@ -94,37 +81,24 @@
                     <td colspan="7" class="alert alert-info">No products Found..</td>
                 </tr>
             @endif
+
             </tbody>
+
         </table>
     </div>
     <div class="row">
         <div class="col-md-12">
-            {{$categories->links()}}
+            {{$products->links()}}
         </div>
     </div>
-    </main>
-    </div>
-    </div>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-
-    <!-- Icons -->
-    <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    <script>
-        feather.replace()
-    </script>
+@endsection
 @section('scripts')
     <script type="text/javascript">
         function confirmDelete(id){
-            let choice = confirm("Are You sure, You want to Delete this record ?")
+            let choice = confirm("Are You sure, You want to Delete this Product ?")
             if(choice){
-                document.getElementById('delete-category-'+id).submit();
+                document.getElementById('delete-product-'+id).submit();
             }
         }
     </script>
-@endsection
-<!-- Graphs -->
-
 @endsection
